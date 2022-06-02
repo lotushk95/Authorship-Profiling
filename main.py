@@ -1,7 +1,9 @@
-import nltk
 from datapreprocess import get_txt
 from datapreprocess import tokenize_txt
 from analysis import count_words
+from analysis import calc_tfidf
+from analysis import print_result
+import numpy as np
 
 #word list
 
@@ -51,9 +53,18 @@ elderly_words = ['bedward', 'billingsgate', 'brabble', 'crapulous', 'elflock', '
 'scintillate', 'scurrilous', 'sedition', 'sedulous', 'sentient', 'shard', 'shibboleth', 'sibilant']
 
 
-sample_letters = get_txt("sample_src/sample")
+sample_letters, conbined_sample_letters = get_txt("sample_src/sample")
 tokenized_sample_letters = tokenize_txt(sample_letters)
 
 
 for tokenized_sample_letter in tokenized_sample_letters:
     print(count_words(tokenized_sample_letter, young_words))
+
+print("--------------")
+
+for tokenized_sample_letter in tokenized_sample_letters:
+    print(count_words(tokenized_sample_letter, elderly_words))
+    
+TFIDFtable = calc_tfidf(conbined_sample_letters, conbined_sample_letters)
+
+print_result(TFIDFtable, conbined_sample_letters)
