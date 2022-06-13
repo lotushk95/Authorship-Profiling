@@ -50,4 +50,3 @@ This trial is so interesting, and that's all our presentation.
 =======
 # Authorship-Profiling
 the program to determine if the author of letter is young or old
->>>>>>> adb0e5765cbdee9bf1104912475d9009ef4be890
