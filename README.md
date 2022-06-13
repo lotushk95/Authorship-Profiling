@@ -1,14 +1,3 @@
-good point, bad point
-Explain the main parts of your program -> counting, cosine similarity...compare to US friend
-Explain any interesting functions -> cosine similarity, evaluate value ---similarityが小さいから、word_listを優先して評価している
-Show the program working
-Describe the overall performance of your program (e.g. excellent, good, fair, poor)
-Provide evidence of the performance
-Discuss any issues and how the issue might be solved. -> word list is not sure
-
-
-
-
 # introduction
 This is group G. We worked to know the author of letter is young or old people, and this is authorship profiling.
 We used two methods to analyze them. Counting the number of young words and old words that we selected from google,
@@ -30,7 +19,7 @@ Unfortunately, this time the program returns only positive number.
 # focus on young
 We don't have old words in sample letters and cosine similarity is positive, so we focused on judging young or not.
 
-# interesting part... cosine similarity, evaluate value ---similarityが小さいから、word_listを優先して評価している
+# interesting part... cosine similarity, evaluate value
 This time, we tried to use cosine similarity using my US friend's letter. That was difficult, but
 that may be unique idea.
 And we thought out the value that is used for evaluation. The evaluation value that we used in this program 
@@ -47,7 +36,7 @@ This is reason why our program is good for profiling young or not.
 We tried to judge young or not by ourselves, and our answers matches the program answer.
 So at least, it can analyze young or not, and this is evidence.
 
-# Discuss any issues and how the issue might be solved. -> word listに確実性がない、similarityが小さすぎるかも
+# Discuss any issues and how the issue might be solved.
 We think original word lists are weak for profiling, so we have to develop it to improve this program.
 And we used only one base letter to calculate cosine similarity, that was not enough, probably.
 If we use 10 letters, 20 letters or more, we can obtain more exact result.
@@ -58,3 +47,7 @@ we can say this similarity is lager than sample letters, but still small.
 Perhaps, sample letters and text in twitter are too short to calculate similarity.
 
 This trial is so interesting, and that's all our presentation.
+=======
+# Authorship-Profiling
+the program to determine if the author of letter is young or old
+>>>>>>> adb0e5765cbdee9bf1104912475d9009ef4be890
