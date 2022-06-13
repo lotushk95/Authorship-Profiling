@@ -2,7 +2,7 @@ from datapreprocess import get_txt
 from datapreprocess import tokenize_txt
 from analysis import count_words
 from analysis import calc_tfidf
-from analysis import print_result
+from analysis import cosine_similarity
 import numpy as np
 
 #word list
@@ -13,7 +13,8 @@ young_words = ['dope', 'goat', 'gucci', 'lit', 'omg', 'salty', 'sic', 'sick', 's
 'bro', 'dude', 'cap', 'curve', 'emo', 'fam', 'flex', 'karen', 'noob', 'periodt', 'ship', 
 'shook', 'squad', 'sus', 'tight', 'tool', 'crashy', 'crunk', 'hangry', 
 'requestion', 'tope', '53x', 'cu46', 'dayger', 'function', 'func', 'molly', 
-'netflix', 'chill', 'rager', 'smash', 'sloshed', 'plug', 'turnt', 'x', 'wttp', 'lmirl', 'fuck', 'fucking']
+'netflix', 'chill', 'rager', 'smash', 'sloshed', 'plug', 'turnt', 'x', 'wttp', 'lmirl', 'fuck',
+'fucking', 'u', 'lol', 'ty', 'rn', 'wtf', 'mf', 'mb', 'savage', 'cu', 'U']
 
 
 #https://www.dvusd.org/cms/lib/AZ01901092/Centricity/Domain/2891/SeniorVocabularyWords.pdf
@@ -52,19 +53,60 @@ elderly_words = ['bedward', 'billingsgate', 'brabble', 'crapulous', 'elflock', '
 'sadistic', 'sagacious', 'salacious', 'salient', 'salutary', 'sangfroid', 'sanguine', 'savant', 
 'scintillate', 'scurrilous', 'sedition', 'sedulous', 'sentient', 'shard', 'shibboleth', 'sibilant']
 
+#print result of cosine similarity
+def print_result1(TFIDFtable, conbined_sample_letters):
 
-sample_letters, conbined_sample_letters = get_txt("sample_src/sample")
+    #print cosine similarity sample letters and letters written by young people
+    for i in range(len(conbined_sample_letters)):
+        if i == 10:
+            break
+        a = np.array(TFIDFtable[i])
+        b = np.array(TFIDFtable[10])
+        print(f"sample {i+1} & letters written by young people(sample_11.txt) : {cosine_similarity(a, b)}")
+
+#print the number of young words + cosine similarity sample letters and letters written by young people
+def print_result2(TFIDFtable, conbined_sample_letters, count_young_words):
+
+    for i in range(len(conbined_sample_letters)):
+        if i == 10:
+            break
+        a = np.array(TFIDFtable[i])
+        b = np.array(TFIDFtable[10])
+        print(f"the number of young words + 'cosine similarity of sample {i+1} & letters written by young people(sample_11.txt)' : {count_young_words[i] + cosine_similarity(a, b)}")
+
+
+#data access & preprocess sample letters
+#sample_letters, conbined_sample_letters = get_txt("sample_src/sample")
+sample_letters, conbined_sample_letters = get_txt("twitter/twitter")
 tokenized_sample_letters = tokenize_txt(sample_letters)
 
-
-for tokenized_sample_letter in tokenized_sample_letters:
-    print(count_words(tokenized_sample_letter, young_words))
-
-print("--------------")
-
-for tokenized_sample_letter in tokenized_sample_letters:
-    print(count_words(tokenized_sample_letter, elderly_words))
+#print the number of young words
+print("the number of young words")
+count_young_words = []
+for i, tokenized_sample_letter in enumerate(tokenized_sample_letters):
+    count = count_words(tokenized_sample_letter, young_words)
+    print(f"sample {i+1} : {count}")
+    count_young_words.append(count)
     
+print()
+
+#print the number of elderly words
+print("the number of elderly words")
+count_elderly_words = []
+for i, tokenized_sample_letter in enumerate(tokenized_sample_letters):
+    count = count_words(tokenized_sample_letter, elderly_words)
+    print(f"sample {i+1} : {count}")
+    count_elderly_words.append(count)
+
+#calculate TF-IDF
 TFIDFtable = calc_tfidf(conbined_sample_letters, conbined_sample_letters)
 
-print_result(TFIDFtable, conbined_sample_letters)
+print()
+print("cosine similarity")
+print_result1(TFIDFtable, conbined_sample_letters)
+
+
+#the number of young words + cosine similarity
+print()
+print("the number of young words + cosine similarity")
+print_result2(TFIDFtable, conbined_sample_letters, count_young_words)

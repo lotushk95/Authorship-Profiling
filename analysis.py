@@ -8,15 +8,15 @@ def count_words(tokenized_words, vocabulary):
     
     count = 0
     
+    #compare word
     for tokenized_word in tokenized_words:
         for word in vocabulary:
             if tokenized_word.lower() == word.lower():
-                #print(tokenized_word)
                 count += 1
     
     return count
 
-#calculate tf-idf
+#calculate tf-idf based on https://web-int.u-aizu.ac.jp/~paikic/lecture/Factory/material/exercise/ex-TFIDF/
 def calc_tfidf(input_letters, conbined_sample_letters):
     N = len(input_letters)
     words = "".join(input_letters).split()
@@ -30,18 +30,23 @@ def calc_tfidf(input_letters, conbined_sample_letters):
     letter_DFtable = Counter()
     letter_TFIDFtable = defaultdict(Counter)
     
+    #calculate term frequency
     for letter in input_letters:
         words = letter.split()
         for word in words:
             letter_TFtable[letter][word] += 1
-
+            
+    #calculate document frequency
         for kw in letter_TFtable[letter].keys():
             letter_DFtable[kw] += 1
-
+            
+    #calculate TF-IDF
     for letter in input_letters:
         for kw in letter_TFtable[letter].keys():
             letter_TFIDFtable[letter][kw] = letter_TFtable[letter][kw] * math.log(N/letter_DFtable[kw])
-
+            
+          
+    # make vector for calculating cosine similarity  
     TFIDFtable = [[0.0 for _ in range(len(rdic))] for _ in range(len(letter_TFIDFtable))]
 
     for i in range(len(conbined_sample_letters)):
@@ -51,9 +56,9 @@ def calc_tfidf(input_letters, conbined_sample_letters):
                 if rdic[j] == key:
                     TFIDFtable[i][j] = letter_TFIDFtable[conbined_sample_letters[i]][key]
     
-    return TFIDFtable
+    return TFIDFtable #return vector for cosine similarity
 
-
+#calculate cosine similarity of sample letters
 def cosine_similarity(a, b):
     dot_product = np.dot(a, b)
     norm_a = np.linalg.norm(a)
@@ -61,13 +66,4 @@ def cosine_similarity(a, b):
     
     cos_sim = dot_product / (norm_a * norm_b)
     
-    return cos_sim
-
-def print_result(TFIDFtable, conbined_sample_letters):
-
-    for i in range(len(conbined_sample_letters)):
-        for j in range(len(conbined_sample_letters)):
-            a = np.array(TFIDFtable[i])
-            b = np.array(TFIDFtable[j])
-            print(f"{i+1}:{j+1}")
-            print((cosine_similarity(a, b)))
+    return cos_sim #return cosine similarity
