@@ -1,8 +1,3 @@
-s1280180 Towa Endo 25%
-s1280183 Hibiki Koishikawa 25%
-s1280192 Kosei Furukawa 25%
-s1280202 Kota Kokubun 25%
-
 Authorship profiling for age
 
 Pseudocode
